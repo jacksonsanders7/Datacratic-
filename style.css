@@ -7,9 +7,7 @@
   --muted: #b8b8d1;
 }
 
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 body {
   margin: 0;
@@ -18,7 +16,7 @@ body {
   color: #1f1f2e;
 }
 
-/* SIDEBAR */
+/* Sidebar */
 .sidebar {
   position: fixed;
   width: 240px;
@@ -28,16 +26,8 @@ body {
   padding: 30px 20px;
 }
 
-.sidebar h1 {
-  margin: 0;
-  font-size: 26px;
-}
-
-.tagline {
-  font-size: 13px;
-  color: var(--muted);
-  margin-bottom: 40px;
-}
+.sidebar h1 { margin: 0; font-size: 26px; }
+.sidebar .tagline { font-size: 13px; color: var(--muted); margin-bottom: 40px; }
 
 .sidebar nav button {
   width: 100%;
@@ -52,28 +42,15 @@ body {
   font-size: 15px;
 }
 
-.sidebar nav button:hover {
-  background: rgba(255, 255, 255, 0.12);
-}
+.sidebar nav button:hover { background: rgba(255, 255, 255, 0.12); }
 
-/* MAIN */
-.main {
-  margin-left: 240px;
-  padding: 50px;
-}
+/* Main content */
+.main { margin-left: 240px; padding: 50px; }
 
-/* CONTENT */
-.tab {
-  max-width: 700px;
-}
+.tab { max-width: 700px; }
+.tab.hidden { display: none; }
 
-.tab.hidden {
-  display: none;
-}
-
-h2 {
-  margin-bottom: 20px;
-}
+h2 { margin-bottom: 20px; }
 
 .card {
   background: var(--white);
@@ -82,42 +59,11 @@ h2 {
   box-shadow: 0 12px 24px rgba(0,0,0,0.06);
 }
 
-/* FORM */
-label {
-  display: block;
-  font-weight: 600;
-  margin-top: 15px;
-}
+/* Forms */
+label { display: block; font-weight: 600; margin-top: 15px; }
+textarea, select { width: 100%; margin-top: 6px; padding: 10px; border-radius: 8px; border: 1px solid #ddd; font-family: inherit; }
+textarea { min-height: 80px; }
+button { margin-top: 20px; background: var(--purple-accent); color: white; border: none; padding: 12px; border-radius: 10px; font-size: 15px; cursor: pointer; }
+button:hover { opacity: 0.9; }
 
-textarea, select {
-  width: 100%;
-  margin-top: 6px;
-  padding: 10px;
-  border-radius: 8px;
-  border: 1px solid #ddd;
-  font-family: inherit;
-}
-
-textarea {
-  min-height: 80px;
-}
-
-button {
-  margin-top: 20px;
-  background: var(--purple-accent);
-  color: white;
-  border: none;
-  padding: 12px;
-  border-radius: 10px;
-  font-size: 15px;
-  cursor: pointer;
-}
-
-button:hover {
-  opacity: 0.9;
-}
-
-.muted {
-  color: #6b6b88;
-  margin-top: 10px;
-}
+.muted { color: var(--muted); margin-top: 10px; }
