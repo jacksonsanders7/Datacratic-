@@ -1,18 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="UTF-8">
   <title>Datacratic Dashboard</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css">
 </head>
 <body onload="initApp()">
 
   <aside class="sidebar">
     <h1>Datacratic</h1>
     <p class="tagline">Collective Data Governance</p>
-
     <nav>
-      <button onclick="showTab('account')">Account</button>
+      <button onclick="showTab('account')">Account Info</button>
       <button onclick="showTab('upload')">Upload Data</button>
       <button onclick="showTab('status')">Data Status</button>
       <button onclick="showTab('payout')">Payout</button>
@@ -20,19 +19,17 @@
   </aside>
 
   <main class="main">
-    <!-- ACCOUNT -->
+    <!-- Account Info -->
     <section id="account" class="tab">
       <h2>Account Overview</h2>
       <div class="card">
         <p><strong>Name:</strong> Demo User</p>
         <p><strong>Email:</strong> demo@datacratic.org</p>
-        <p class="muted">
-          This is a single-user demo running entirely in the browser.
-        </p>
+        <p class="muted">Single-user demo running entirely in the browser.</p>
       </div>
     </section>
 
-    <!-- UPLOAD -->
+    <!-- Upload Data -->
     <section id="upload" class="tab hidden">
       <h2>Upload Personal Data</h2>
       <div class="card">
@@ -43,22 +40,22 @@
           <option>Location Patterns</option>
         </select>
 
-        <label>Description</label>
-        <textarea id="dataContent" placeholder="Brief description of the data"></textarea>
+        <label>Data Description</label>
+        <textarea id="dataContent" placeholder="Describe your data here"></textarea>
 
         <button onclick="uploadData()">Upload Data</button>
       </div>
     </section>
 
-    <!-- STATUS -->
+    <!-- Data Status -->
     <section id="status" class="tab hidden">
       <h2>Data Status</h2>
       <div id="dataStatus" class="card"></div>
     </section>
 
-    <!-- PAYOUT -->
+    <!-- Payout -->
     <section id="payout" class="tab hidden">
-      <h2>Payout Settings</h2>
+      <h2>Payout</h2>
       <div class="card">
         <label>Preferred Method</label>
         <select>
@@ -66,9 +63,7 @@
           <option>Venmo</option>
           <option>Direct Bank Transfer</option>
         </select>
-        <p class="muted">
-          No payouts available yet. This section represents future revenue distribution.
-        </p>
+        <p class="muted">Demo only — no real payouts.</p>
       </div>
     </section>
   </main>
