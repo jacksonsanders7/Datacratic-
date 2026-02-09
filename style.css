@@ -1,22 +1,47 @@
 body {
   font-family: Arial, sans-serif;
   margin: 40px;
+  background: #fafafa;
 }
 
-section {
-  margin-bottom: 30px;
-  padding: 15px;
-  border: 1px solid #ddd;
+.auth-container {
+  max-width: 400px;
+  margin: auto;
 }
 
-input, select, button {
-  margin: 5px 0;
+input, textarea, select, button {
   display: block;
+  width: 100%;
+  margin: 8px 0;
+  padding: 8px;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+nav {
+  margin: 20px 0;
+}
+
+nav button {
+  margin-right: 10px;
+}
+
+.tab {
+  border: 1px solid #ddd;
+  padding: 15px;
+  background: #fff;
+}
+
+.hidden {
+  display: none;
 }
 
 pre {
-  background: #f6f6f6;
+  background: #f4f4f4;
   padding: 10px;
-  max-height: 200px;
   overflow: auto;
 }
