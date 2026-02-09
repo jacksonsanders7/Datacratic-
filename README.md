@@ -1,26 +1,25 @@
-# Datacratic-
-# DataCommons
+# Datacratic (Demo)
 
-DataCommons is a collective personal data cooperative that enables individuals to
-pool, govern, and monetize their data democratically.
+Datacratic is a concept demonstration of a **collective personal data governance system**.
 
-## Problem
-Individuals generate valuable data, but platforms extract and monetize it without
-collective consent or fair compensation.
+Rather than treating personal data as an individual asset or a platform-owned resource,
+Datacratic models data as a **democratically governed collective good**.
 
-## Solution
-DataCommons introduces a cooperative model where:
-- Individuals retain ownership of their data
-- Data is pooled only with explicit consent
-- Members vote on how pooled data is used
-- Revenue is distributed transparently
+## What This Demo Shows
+- Individual participation in a data collective
+- Explicit consent for data pooling
+- Collective approval thresholds enforced in code
+- Transparent, inspectable governance logic
 
-## Core Principles
-- Collective governance
-- Privacy-by-design
-- Non-extractive data economics
+## Why a Browser-Only Demo
+This project intentionally runs entirely in the browser using client-side logic.
+This allows evaluators to inspect governance assumptions directly without
+infrastructure or backend complexity.
 
-## Architecture Overview
-- FastAPI backend
-- PostgreSQL data store
-- Consent and governance logic at the core
+## What This Is Not
+- Not a production system
+- Not a data marketplace
+- Not blockchain-based
+
+## Core Question
+What if data power was exercised collectively rather than extracted individually?
