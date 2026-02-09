@@ -2,26 +2,32 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Datacratic – Sign In</title>
+  <title>Datacratic</title>
   <link rel="stylesheet" href="style.css" />
 </head>
-<body>
-  <div class="auth-container">
+<body class="auth-bg">
+  <div class="auth-card">
     <h1>Datacratic</h1>
-    <p>Collective data governance platform (demo)</p>
+    <p class="subtitle">Collective data governance platform</p>
 
-    <h2>Sign In</h2>
-    <input id="loginEmail" placeholder="Email" />
-    <input id="loginPassword" type="password" placeholder="Password" />
-    <button onclick="login()">Sign In</button>
+    <div class="auth-section">
+      <h2>Sign In</h2>
+      <input id="loginEmail" type="email" placeholder="Email" />
+      <input id="loginPassword" type="password" placeholder="Password" />
+      <button onclick="login()">Sign In</button>
+    </div>
 
-    <h2>Create Account</h2>
-    <input id="signupName" placeholder="Full Name" />
-    <input id="signupEmail" placeholder="Email" />
-    <input id="signupPassword" type="password" placeholder="Password" />
-    <button onclick="signup()">Sign Up</button>
+    <div class="divider">OR</div>
 
-    <p id="authMessage"></p>
+    <div class="auth-section">
+      <h2>Create Account</h2>
+      <input id="signupName" placeholder="Full Name" />
+      <input id="signupEmail" type="email" placeholder="Email" />
+      <input id="signupPassword" type="password" placeholder="Password" />
+      <button class="secondary" onclick="signup()">Sign Up</button>
+    </div>
+
+    <p id="authMessage" class="message"></p>
   </div>
 
   <script src="app.js"></script>
