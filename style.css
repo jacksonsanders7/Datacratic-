@@ -1,69 +1,33 @@
-:root {
-  --purple-dark: #2b193d;
-  --purple-mid: #3c235a;
-  --purple-accent: #7c5cff;
-  --pearl: #f5f5fa;
-  --white: #ffffff;
-  --muted: #b8b8d1;
+/* Data row and badges */
+.data-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
 }
 
-* { box-sizing: border-box; }
-
-body {
-  margin: 0;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  background: var(--pearl);
-  color: #1f1f2e;
+.badge {
+  padding: 4px 12px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 600;
+  color: white;
+  transition: all 0.3s ease;
 }
 
-/* Sidebar */
-.sidebar {
-  position: fixed;
-  width: 240px;
-  height: 100vh;
-  background: linear-gradient(180deg, var(--purple-dark), var(--purple-mid));
-  color: var(--white);
-  padding: 30px 20px;
+.badge.uploaded {
+  background: #7c5cff; /* Purple */
 }
 
-.sidebar h1 { margin: 0; font-size: 26px; }
-.sidebar .tagline { font-size: 13px; color: var(--muted); margin-bottom: 40px; }
-
-.sidebar nav button {
-  width: 100%;
-  background: none;
-  border: none;
-  color: var(--white);
-  text-align: left;
-  padding: 12px 10px;
-  margin-bottom: 8px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 15px;
+.badge.innegotiation {
+  background: #f59e0b; /* Amber */
 }
 
-.sidebar nav button:hover { background: rgba(255, 255, 255, 0.12); }
-
-/* Main content */
-.main { margin-left: 240px; padding: 50px; }
-
-.tab { max-width: 700px; }
-.tab.hidden { display: none; }
-
-h2 { margin-bottom: 20px; }
-
-.card {
-  background: var(--white);
-  border-radius: 14px;
-  padding: 25px;
-  box-shadow: 0 12px 24px rgba(0,0,0,0.06);
+.badge.paymentavailable {
+  background: #10b981; /* Green */
 }
 
-/* Forms */
-label { display: block; font-weight: 600; margin-top: 15px; }
-textarea, select { width: 100%; margin-top: 6px; padding: 10px; border-radius: 8px; border: 1px solid #ddd; font-family: inherit; }
-textarea { min-height: 80px; }
-button { margin-top: 20px; background: var(--purple-accent); color: white; border: none; padding: 12px; border-radius: 10px; font-size: 15px; cursor: pointer; }
-button:hover { opacity: 0.9; }
-
-.muted { color: var(--muted); margin-top: 10px; }
+/* Optional: hover animation */
+.data-row:hover .badge {
+  transform: scale(1.05);
+}
