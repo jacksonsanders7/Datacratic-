@@ -3,13 +3,8 @@ const db = {
   data: JSON.parse(localStorage.getItem("datacratic_data") || "[]")
 };
 
-function save() {
-  localStorage.setItem("datacratic_data", JSON.stringify(db.data));
-}
-
-function uid() {
-  return Math.random().toString(36).substring(2, 9);
-}
+function save() { localStorage.setItem("datacratic_data", JSON.stringify(db.data)); }
+function uid() { return Math.random().toString(36).substring(2, 9); }
 
 // Initialize app
 function initApp() {
@@ -18,7 +13,7 @@ function initApp() {
   startStatusLifecycle();
 }
 
-// Show a specific tab
+// Show tab
 function showTab(tabId) {
   document.querySelectorAll(".tab").forEach(t => t.classList.add("hidden"));
   document.getElementById(tabId).classList.remove("hidden");
@@ -28,20 +23,14 @@ function showTab(tabId) {
 function uploadData() {
   if (!dataContent.value.trim()) return;
 
-  const newData = {
-    id: uid(),
-    type: dataType.value,
-    status: "Uploaded"
-  };
-
-  db.data.push(newData);
+  db.data.push({ id: uid(), type: dataType.value, status: "Uploaded" });
   save();
   dataContent.value = "";
   renderStatus();
   showTab("status");
 }
 
-// Render data status with badges
+// Render status with badges
 function renderStatus() {
   if (db.data.length === 0) {
     dataStatus.innerHTML = "<p class='muted'>No data uploaded yet.</p>";
@@ -49,35 +38,19 @@ function renderStatus() {
   }
 
   dataStatus.innerHTML = db.data
-    .map(d => `
-      <div class="data-row">
-        <span class="data-type">${d.type}</span>
-        <span class="badge ${d.status.replace(/ /g,'').toLowerCase()}">${d.status}</span>
-      </div>
-    `)
+    .map(d => `<div class="data-row"><span class="data-type">${d.type}</span><span class="badge ${d.status.replace(/ /g,'').toLowerCase()}">${d.status}</span></div>`)
     .join("");
 }
 
-// Animate status lifecycle for demo purposes
+// Status lifecycle animation
 function startStatusLifecycle() {
   db.data.forEach(d => {
     if (d.status === "Uploaded") {
-      // After 3 seconds, move to In Negotiation
-      setTimeout(() => {
-        d.status = "In Negotiation";
-        save();
-        renderStatus();
-      }, 3000);
-
-      // After 6 seconds, move to Payment Available
-      setTimeout(() => {
-        d.status = "Payment Available";
-        save();
-        renderStatus();
-      }, 6000);
+      setTimeout(() => { d.status = "In Negotiation"; save(); renderStatus(); }, 3000);
+      setTimeout(() => { d.status = "Payment Available"; save(); renderStatus(); }, 6000);
     }
   });
 }
 
-// Re-run lifecycle every 5 seconds to catch new uploads
+// Keep checking every 5 seconds for new uploads
 setInterval(startStatusLifecycle, 5000);
