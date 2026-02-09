@@ -7,19 +7,25 @@
 </head>
 <body onload="initApp()">
 
+  <!-- SIDEBAR -->
   <aside class="sidebar">
-    <h1>Datacratic</h1>
-    <p class="tagline">Collective Data Governance</p>
+    <div class="logo">
+      <h1>Datacratic</h1>
+      <p class="tagline">Collective Data Governance</p>
+    </div>
     <nav>
       <button onclick="showTab('account')">Account Info</button>
       <button onclick="showTab('upload')">Upload Data</button>
       <button onclick="showTab('status')">Data Status</button>
       <button onclick="showTab('payout')">Payout</button>
+      <button onclick="showTab('groups')">Groups</button>
     </nav>
   </aside>
 
+  <!-- MAIN CONTENT -->
   <main class="main">
-    <!-- Account Info -->
+
+    <!-- ACCOUNT -->
     <section id="account" class="tab">
       <h2>Account Overview</h2>
       <div class="card">
@@ -29,7 +35,7 @@
       </div>
     </section>
 
-    <!-- Upload Data -->
+    <!-- UPLOAD -->
     <section id="upload" class="tab hidden">
       <h2>Upload Personal Data</h2>
       <div class="card">
@@ -47,13 +53,13 @@
       </div>
     </section>
 
-    <!-- Data Status -->
+    <!-- DATA STATUS -->
     <section id="status" class="tab hidden">
       <h2>Data Status</h2>
       <div id="dataStatus" class="card"></div>
     </section>
 
-    <!-- Payout -->
+    <!-- PAYOUT -->
     <section id="payout" class="tab hidden">
       <h2>Payout</h2>
       <div class="card">
@@ -66,6 +72,21 @@
         <p class="muted">Demo only — no real payouts.</p>
       </div>
     </section>
+
+    <!-- GROUPS -->
+    <section id="groups" class="tab hidden">
+      <h2>Groups</h2>
+      <div class="card">
+        <label>Group Name</label>
+        <input type="text" id="groupName" placeholder="Enter a group name">
+
+        <button onclick="createGroup()">Create Group</button>
+
+        <h3 style="margin-top:20px;">Existing Groups</h3>
+        <div id="groupList"></div>
+      </div>
+    </section>
+
   </main>
 
   <script src="app.js"></script>
