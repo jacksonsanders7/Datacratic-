@@ -11,14 +11,13 @@ function uid() {
   return Math.random().toString(36).substring(2, 9);
 }
 
-// Initialize app
+// Initialize
 function initApp() {
   showTab("account");
   renderStatus();
-  startStatusLifecycle();
 }
 
-// Show tab
+// Show specific tab
 function showTab(tabId) {
   document.querySelectorAll(".tab").forEach(t => t.classList.add("hidden"));
   document.getElementById(tabId).classList.remove("hidden");
@@ -40,7 +39,7 @@ function uploadData() {
   showTab("status");
 }
 
-// Render data with badges
+// Render data status
 function renderStatus() {
   if (db.data.length === 0) {
     dataStatus.innerHTML = "<p class='muted'>No data uploaded yet.</p>";
@@ -48,19 +47,6 @@ function renderStatus() {
   }
 
   dataStatus.innerHTML = db.data
-    .map(d => `<div class="data-row"><span class="data-type">${d.type}</span><span class="badge ${d.status.replace(/ /g,'').toLowerCase()}">${d.status}</span></div>`)
+    .map(d => `<div style="margin-bottom:12px"><strong>${d.type}</strong><div class="muted">${d.status}</div></div>`)
     .join("");
 }
-
-// Animate status lifecycle
-function startStatusLifecycle() {
-  db.data.forEach(d => {
-    if (d.status === "Uploaded") {
-      setTimeout(() => { d.status = "In Negotiation"; save(); renderStatus(); }, 3000);
-      setTimeout(() => { d.status = "Payment Available"; save(); renderStatus(); }, 6000);
-    }
-  });
-}
-
-// Check periodically for new uploads
-setInterval(startStatusLifecycle, 5000);
