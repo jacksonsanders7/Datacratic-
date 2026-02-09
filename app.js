@@ -11,13 +11,14 @@ function uid() {
   return Math.random().toString(36).substring(2, 9);
 }
 
-// Initialize
+// Initialize app
 function initApp() {
   showTab("account");
   renderStatus();
+  startStatusLifecycle();
 }
 
-// Show specific tab
+// Show a specific tab
 function showTab(tabId) {
   document.querySelectorAll(".tab").forEach(t => t.classList.add("hidden"));
   document.getElementById(tabId).classList.remove("hidden");
@@ -27,19 +28,20 @@ function showTab(tabId) {
 function uploadData() {
   if (!dataContent.value.trim()) return;
 
-  db.data.push({
+  const newData = {
     id: uid(),
     type: dataType.value,
     status: "Uploaded"
-  });
+  };
 
+  db.data.push(newData);
   save();
   dataContent.value = "";
   renderStatus();
   showTab("status");
 }
 
-// Render data status
+// Render data status with badges
 function renderStatus() {
   if (db.data.length === 0) {
     dataStatus.innerHTML = "<p class='muted'>No data uploaded yet.</p>";
@@ -47,6 +49,35 @@ function renderStatus() {
   }
 
   dataStatus.innerHTML = db.data
-    .map(d => `<div style="margin-bottom:12px"><strong>${d.type}</strong><div class="muted">${d.status}</div></div>`)
+    .map(d => `
+      <div class="data-row">
+        <span class="data-type">${d.type}</span>
+        <span class="badge ${d.status.replace(/ /g,'').toLowerCase()}">${d.status}</span>
+      </div>
+    `)
     .join("");
 }
+
+// Animate status lifecycle for demo purposes
+function startStatusLifecycle() {
+  db.data.forEach(d => {
+    if (d.status === "Uploaded") {
+      // After 3 seconds, move to In Negotiation
+      setTimeout(() => {
+        d.status = "In Negotiation";
+        save();
+        renderStatus();
+      }, 3000);
+
+      // After 6 seconds, move to Payment Available
+      setTimeout(() => {
+        d.status = "Payment Available";
+        save();
+        renderStatus();
+      }, 6000);
+    }
+  });
+}
+
+// Re-run lifecycle every 5 seconds to catch new uploads
+setInterval(startStatusLifecycle, 5000);
