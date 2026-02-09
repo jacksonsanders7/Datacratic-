@@ -1,90 +1,116 @@
-// --- Storage ---
+// ---- Local "Database" ----
 const db = {
   users: JSON.parse(localStorage.getItem("users")) || [],
-  datasets: JSON.parse(localStorage.getItem("datasets")) || [],
-  consents: JSON.parse(localStorage.getItem("consents")) || [],
-  votes: JSON.parse(localStorage.getItem("votes")) || []
+  data: JSON.parse(localStorage.getItem("data")) || []
 };
 
-const CONSENT_THRESHOLD = 0.7;
-
-function save() {
-  Object.keys(db).forEach(key =>
-    localStorage.setItem(key, JSON.stringify(db[key]))
-  );
+function saveDB() {
+  localStorage.setItem("users", JSON.stringify(db.users));
+  localStorage.setItem("data", JSON.stringify(db.data));
 }
 
-// --- Utilities ---
 function id() {
   return Math.random().toString(36).substring(2, 10);
 }
 
-// --- Users ---
-function createUser() {
-  const email = userEmail.value;
-  const user = { id: id(), email };
+// ---- AUTH ----
+function signup() {
+  const user = {
+    id: id(),
+    name: signupName.value,
+    email: signupEmail.value,
+    password: signupPassword.value
+  };
+
+  if (db.users.find(u => u.email === user.email)) {
+    authMessage.textContent = "Account already exists.";
+    return;
+  }
+
   db.users.push(user);
-  save();
-  users.textContent = JSON.stringify(db.users, null, 2);
+  saveDB();
+  authMessage.textContent = "Account created. You can sign in.";
 }
 
-// --- Datasets ---
-function submitDataset() {
-  const dataset = {
-    id: id(),
-    owner: datasetUser.value,
-    type: datasetType.value
-  };
-  db.datasets.push(dataset);
-  save();
-  datasets.textContent = JSON.stringify(db.datasets, null, 2);
-}
-
-// --- Consent ---
-function giveConsent() {
-  const consent = {
-    id: id(),
-    user: consentUser.value,
-    dataset: consentDataset.value,
-    approved: true
-  };
-  db.consents.push(consent);
-  save();
-  consents.textContent = JSON.stringify(db.consents, null, 2);
-}
-
-// --- Governance Logic ---
-function checkApproval() {
-  const datasetId = checkDataset.value;
-  const relevant = db.consents.filter(
-    c => c.dataset === datasetId
+function login() {
+  const user = db.users.find(
+    u =>
+      u.email === loginEmail.value &&
+      u.password === loginPassword.value
   );
 
-  const approvalRate =
-    relevant.length === 0
-      ? 0
-      : relevant.filter(c => c.approved).length / relevant.length;
+  if (!user) {
+    authMessage.textContent = "Invalid credentials.";
+    return;
+  }
 
-  approval.textContent = JSON.stringify(
+  localStorage.setItem("currentUser", user.id);
+  window.location.href = "dashboard.html";
+}
+
+function logout() {
+  localStorage.removeItem("currentUser");
+  window.location.href = "index.html";
+}
+
+// ---- DASHBOARD ----
+function loadDashboard() {
+  const userId = localStorage.getItem("currentUser");
+  if (!userId) {
+    window.location.href = "index.html";
+    return;
+  }
+
+  const user = db.users.find(u => u.id === userId);
+  accountInfo.textContent = JSON.stringify(
     {
-      dataset: datasetId,
-      approvalRate,
-      collectiveApproval: approvalRate >= CONSENT_THRESHOLD
+      name: user.name,
+      email: user.email,
+      password: user.password
     },
     null,
     2
   );
+
+  renderDataStatus();
 }
 
-// --- Voting ---
-function vote() {
-  const vote = {
+function showTab(tabId) {
+  document.querySelectorAll(".tab").forEach(tab =>
+    tab.classList.add("hidden")
+  );
+  document.getElementById(tabId).classList.remove("hidden");
+}
+
+// ---- DATA UPLOAD ----
+function uploadData() {
+  const userId = localStorage.getItem("currentUser");
+
+  db.data.push({
     id: id(),
-    user: voteUser.value,
-    proposal: proposalId.value,
-    support: voteSupport.value === "true"
-  };
-  db.votes.push(vote);
-  save();
-  votes.textContent = JSON.stringify(db.votes, null, 2);
+    userId,
+    type: dataType.value,
+    content: dataContent.value,
+    status: "Uploaded"
+  });
+
+  saveDB();
+  dataContent.value = "";
+  renderDataStatus();
+  showTab("status");
+}
+
+// ---- DATA STATUS ----
+function renderDataStatus() {
+  const userId = localStorage.getItem("currentUser");
+  const userData = db.data.filter(d => d.userId === userId);
+
+  dataStatus.textContent = JSON.stringify(
+    userData.map(d => ({
+      type: d.type,
+      status: d.status
+    })),
+    null,
+    2
+  );
 }
