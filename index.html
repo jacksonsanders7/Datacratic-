@@ -7,12 +7,9 @@
 </head>
 <body onload="initApp()">
 
-  <!-- SIDEBAR -->
   <aside class="sidebar">
-    <div class="logo">
-      <h1>Datacratic</h1>
-      <p class="tagline">Collective Data Governance</p>
-    </div>
+    <h1>Datacratic</h1>
+    <p class="tagline">Collective Data Governance</p>
     <nav>
       <button onclick="showTab('account')">Account Info</button>
       <button onclick="showTab('upload')">Upload Data</button>
@@ -21,9 +18,8 @@
     </nav>
   </aside>
 
-  <!-- MAIN CONTENT -->
   <main class="main">
-    <!-- ACCOUNT -->
+    <!-- Account Info -->
     <section id="account" class="tab">
       <h2>Account Overview</h2>
       <div class="card">
@@ -33,7 +29,7 @@
       </div>
     </section>
 
-    <!-- UPLOAD -->
+    <!-- Upload Data -->
     <section id="upload" class="tab hidden">
       <h2>Upload Personal Data</h2>
       <div class="card">
@@ -51,13 +47,13 @@
       </div>
     </section>
 
-    <!-- STATUS -->
+    <!-- Data Status -->
     <section id="status" class="tab hidden">
       <h2>Data Status</h2>
       <div id="dataStatus" class="card"></div>
     </section>
 
-    <!-- PAYOUT -->
+    <!-- Payout -->
     <section id="payout" class="tab hidden">
       <h2>Payout</h2>
       <div class="card">
