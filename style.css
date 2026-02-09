@@ -11,20 +11,27 @@
 
 /* GENERAL */
 * { box-sizing: border-box; }
-body { margin: 0; font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif; background: var(--pearl); color: #1f1f2e; }
+body {
+  margin: 0;
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--pearl);
+  color: #1f1f2e;
+}
 
 /* SIDEBAR */
 .sidebar {
   position: fixed;
-  width: 240px;
+  width: 250px;
   height: 100vh;
   background: linear-gradient(180deg, var(--purple-dark), var(--purple-mid));
   color: var(--white);
-  padding: 30px 20px;
+  padding: 40px 20px;
+  display: flex;
+  flex-direction: column;
 }
 
-.sidebar h1 { margin: 0; font-size: 26px; }
-.sidebar .tagline { font-size: 13px; color: var(--muted); margin-bottom: 40px; }
+.sidebar .logo h1 { margin: 0; font-size: 28px; }
+.sidebar .logo .tagline { font-size: 13px; color: var(--muted); margin-bottom: 40px; }
 
 .sidebar nav button {
   width: 100%;
@@ -32,52 +39,79 @@ body { margin: 0; font-family: system-ui, -apple-system, BlinkMacSystemFont, san
   border: none;
   color: var(--white);
   text-align: left;
-  padding: 12px 10px;
-  margin-bottom: 8px;
+  padding: 14px 10px;
+  margin-bottom: 10px;
   border-radius: 8px;
   cursor: pointer;
-  font-size: 15px;
+  font-size: 16px;
+  transition: background 0.2s;
 }
 
-.sidebar nav button:hover { background: rgba(255,255,255,0.12); }
+.sidebar nav button:hover {
+  background: rgba(255,255,255,0.12);
+}
 
 /* MAIN CONTENT */
-.main { margin-left: 240px; padding: 50px; }
-.tab { max-width: 700px; }
-.tab.hidden { display: none; }
-h2 { margin-bottom: 20px; }
-
-/* CARDS */
-.card {
-  background: var(--white);
-  border-radius: 14px;
-  padding: 25px;
-  box-shadow: 0 12px 24px rgba(0,0,0,0.06);
+.main {
+  margin-left: 250px;
+  padding: 50px;
 }
 
-/* FORMS */
-label { display: block; font-weight: 600; margin-top: 15px; }
-textarea, select { width: 100%; margin-top: 6px; padding: 10px; border-radius: 8px; border: 1px solid #ddd; font-family: inherit; }
-textarea { min-height: 80px; }
-button { margin-top: 20px; background: var(--purple-accent); color: white; border: none; padding: 12px; border-radius: 10px; font-size: 15px; cursor: pointer; }
+/* TABS & CARDS */
+.tab { max-width: 750px; }
+.tab.hidden { display: none; }
+h2 { margin-bottom: 25px; }
+
+.card {
+  background: var(--white);
+  border-radius: 16px;
+  padding: 30px;
+  box-shadow: 0 14px 28px rgba(0,0,0,0.06);
+}
+
+/* FORM ELEMENTS */
+label { display: block; font-weight: 600; margin-top: 18px; }
+textarea, select {
+  width: 100%;
+  margin-top: 6px;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  font-family: inherit;
+}
+textarea { min-height: 90px; }
+
+button {
+  margin-top: 25px;
+  background: var(--purple-accent);
+  color: white;
+  border: none;
+  padding: 14px;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
 button:hover { opacity: 0.9; }
 
 /* MUTED TEXT */
 .muted { color: var(--muted); margin-top: 10px; }
 
-/* DATA STATUS ROWS */
+/* DATA STATUS */
 .data-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
 }
 
 .data-type { font-weight: 600; }
 
 .badge {
-  padding: 4px 12px;
-  border-radius: 12px;
+  padding: 6px 14px;
+  border-radius: 14px;
   font-size: 13px;
   font-weight: 600;
   color: white;
