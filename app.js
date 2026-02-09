@@ -1,7 +1,7 @@
-// ---- Local "Database" ----
+// ---- DATABASE ----
 const db = {
-  users: JSON.parse(localStorage.getItem("users")) || [],
-  data: JSON.parse(localStorage.getItem("data")) || []
+  users: JSON.parse(localStorage.getItem("users") || "[]"),
+  data: JSON.parse(localStorage.getItem("data") || "[]")
 };
 
 function saveDB() {
@@ -9,38 +9,42 @@ function saveDB() {
   localStorage.setItem("data", JSON.stringify(db.data));
 }
 
-function id() {
+function uid() {
   return Math.random().toString(36).substring(2, 10);
 }
 
 // ---- AUTH ----
 function signup() {
-  const user = {
-    id: id(),
-    name: signupName.value,
-    email: signupEmail.value,
-    password: signupPassword.value
-  };
+  const name = signupName.value.trim();
+  const email = signupEmail.value.trim();
+  const password = signupPassword.value.trim();
 
-  if (db.users.find(u => u.email === user.email)) {
+  if (!name || !email || !password) {
+    authMessage.textContent = "All fields are required.";
+    return;
+  }
+
+  if (db.users.some(u => u.email === email)) {
     authMessage.textContent = "Account already exists.";
     return;
   }
 
-  db.users.push(user);
+  db.users.push({ id: uid(), name, email, password });
   saveDB();
-  authMessage.textContent = "Account created. You can sign in.";
+  authMessage.style.color = "#059669";
+  authMessage.textContent = "Account created. You can now sign in.";
 }
 
 function login() {
+  const email = loginEmail.value.trim();
+  const password = loginPassword.value.trim();
+
   const user = db.users.find(
-    u =>
-      u.email === loginEmail.value &&
-      u.password === loginPassword.value
+    u => u.email === email && u.password === password
   );
 
   if (!user) {
-    authMessage.textContent = "Invalid credentials.";
+    authMessage.textContent = "Invalid email or password.";
     return;
   }
 
@@ -62,35 +66,33 @@ function loadDashboard() {
   }
 
   const user = db.users.find(u => u.id === userId);
-  accountInfo.textContent = JSON.stringify(
-    {
-      name: user.name,
-      email: user.email,
-      password: user.password
-    },
-    null,
-    2
-  );
+  accountInfo.innerHTML = `
+    <strong>Name:</strong> ${user.name}<br/>
+    <strong>Email:</strong> ${user.email}<br/>
+    <strong>Password:</strong> ${user.password}
+  `;
 
   renderDataStatus();
 }
 
-function showTab(tabId) {
-  document.querySelectorAll(".tab").forEach(tab =>
-    tab.classList.add("hidden")
+function showTab(id) {
+  document.querySelectorAll(".tab").forEach(t =>
+    t.classList.add("hidden")
   );
-  document.getElementById(tabId).classList.remove("hidden");
+  document.getElementById(id).classList.remove("hidden");
 }
 
-// ---- DATA UPLOAD ----
+// ---- DATA ----
 function uploadData() {
   const userId = localStorage.getItem("currentUser");
+  const content = dataContent.value.trim();
+
+  if (!content) return;
 
   db.data.push({
-    id: id(),
+    id: uid(),
     userId,
     type: dataType.value,
-    content: dataContent.value,
     status: "Uploaded"
   });
 
@@ -100,17 +102,14 @@ function uploadData() {
   showTab("status");
 }
 
-// ---- DATA STATUS ----
 function renderDataStatus() {
   const userId = localStorage.getItem("currentUser");
-  const userData = db.data.filter(d => d.userId === userId);
+  const rows = db.data
+    .filter(d => d.userId === userId)
+    .map(
+      d => `<div><strong>${d.type}</strong> — ${d.status}</div>`
+    )
+    .join("");
 
-  dataStatus.textContent = JSON.stringify(
-    userData.map(d => ({
-      type: d.type,
-      status: d.status
-    })),
-    null,
-    2
-  );
+  dataStatus.innerHTML = rows || "No data uploaded yet.";
 }
