@@ -7,22 +7,24 @@
 </head>
 <body onload="init()">
 
+<!-- AUTH SCREEN -->
 <div id="authContainer" class="auth-container">
   <div class="auth-card">
     <h1>Datacratic</h1>
     <p class="tagline">Collective Data Governance</p>
 
-    <input id="authName" placeholder="Name (Sign up only)" />
-    <input id="authEmail" placeholder="Email" />
-    <input id="authPassword" type="password" placeholder="Password" />
+    <input id="authName" placeholder="Name (Sign up only)">
+    <input id="authEmail" placeholder="Email">
+    <input id="authPassword" type="password" placeholder="Password">
 
     <button onclick="signup()">Sign Up</button>
     <button class="secondary" onclick="login()">Login</button>
 
-    <p id="authMessage" class="muted"></p>
+    <p id="authMessage" class="error"></p>
   </div>
 </div>
 
+<!-- DASHBOARD -->
 <div id="dashboard" class="hidden">
 
   <aside class="sidebar">
@@ -35,6 +37,7 @@
   </aside>
 
   <main class="main">
+
     <section id="account" class="tab">
       <h2>Account Info</h2>
       <div class="card" id="accountInfo"></div>
@@ -70,8 +73,8 @@
         <div id="groupList"></div>
       </div>
     </section>
-  </main>
 
+  </main>
 </div>
 
 <script src="app.js"></script>
