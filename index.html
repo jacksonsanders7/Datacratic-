@@ -1,100 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Datacratic Dashboard</title>
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<title>Datacratic</title>
+<link rel="stylesheet" href="style.css">
 </head>
-<body onload="initApp()">
+<body onload="init()">
 
-  <!-- SIDEBAR -->
+<div id="authContainer" class="auth-container">
+  <div class="auth-card">
+    <h1>Datacratic</h1>
+    <p class="tagline">Collective Data Governance</p>
+
+    <input id="authName" placeholder="Name (Sign up only)" />
+    <input id="authEmail" placeholder="Email" />
+    <input id="authPassword" type="password" placeholder="Password" />
+
+    <button onclick="signup()">Sign Up</button>
+    <button class="secondary" onclick="login()">Login</button>
+
+    <p id="authMessage" class="muted"></p>
+  </div>
+</div>
+
+<div id="dashboard" class="hidden">
+
   <aside class="sidebar">
-    <div class="logo">
-      <h1>Datacratic</h1>
-      <p class="tagline">Collective Data Governance</p>
-    </div>
-    <nav>
-      <button onclick="showTab('account')">Account Info</button>
-      <button onclick="showTab('upload')">Upload Data</button>
-      <button onclick="showTab('status')">Data Status</button>
-      <button onclick="showTab('payout')">Payout</button>
-      <button onclick="showTab('groups')">Groups</button>
-    </nav>
+    <h2>Datacratic</h2>
+    <button onclick="showTab('account')">Account</button>
+    <button onclick="showTab('upload')">Upload</button>
+    <button onclick="showTab('status')">Status</button>
+    <button onclick="showTab('groups')">Groups</button>
+    <button onclick="logout()">Logout</button>
   </aside>
 
-  <!-- MAIN CONTENT -->
   <main class="main">
-
-    <!-- ACCOUNT -->
     <section id="account" class="tab">
-      <h2>Account Overview</h2>
-      <div class="card">
-        <p><strong>Name:</strong> Demo User</p>
-        <p><strong>Email:</strong> demo@datacratic.org</p>
-        <p class="muted">Single-user demo running entirely in the browser.</p>
-      </div>
+      <h2>Account Info</h2>
+      <div class="card" id="accountInfo"></div>
     </section>
 
-    <!-- UPLOAD -->
     <section id="upload" class="tab hidden">
-      <h2>Upload Personal Data</h2>
+      <h2>Upload Data</h2>
       <div class="card">
-        <label>Data Category</label>
         <select id="dataType">
           <option>Screen Time</option>
           <option>Fast Food Purchases</option>
           <option>Location Patterns</option>
         </select>
 
-        <label>Data Description</label>
-        <textarea id="dataContent" placeholder="Describe your data here"></textarea>
+        <textarea id="dataContent" placeholder="Describe data"></textarea>
 
-        <label>Upload To</label>
-        <select id="uploadTarget">
-          <option value="personal">Personal</option>
-          <!-- Groups will populate here dynamically -->
-        </select>
+        <select id="uploadTarget"></select>
 
-        <button onclick="uploadData()">Upload Data</button>
+        <button onclick="uploadData()">Upload</button>
       </div>
     </section>
 
-    <!-- DATA STATUS -->
     <section id="status" class="tab hidden">
       <h2>Data Status</h2>
-      <div id="dataStatus" class="card"></div>
+      <div class="card" id="statusList"></div>
     </section>
 
-    <!-- PAYOUT -->
-    <section id="payout" class="tab hidden">
-      <h2>Payout</h2>
-      <div class="card">
-        <label>Preferred Method</label>
-        <select>
-          <option>PayPal</option>
-          <option>Venmo</option>
-          <option>Direct Bank Transfer</option>
-        </select>
-        <p class="muted">Demo only — no real payouts.</p>
-      </div>
-    </section>
-
-    <!-- GROUPS -->
     <section id="groups" class="tab hidden">
       <h2>Groups</h2>
       <div class="card">
-        <label>Group Name</label>
-        <input type="text" id="groupName" placeholder="Enter a group name">
-
+        <input id="groupName" placeholder="New Group Name">
         <button onclick="createGroup()">Create Group</button>
-
-        <h3 style="margin-top:20px;">Existing Groups</h3>
         <div id="groupList"></div>
       </div>
     </section>
-
   </main>
 
-  <script src="app.js"></script>
+</div>
+
+<script src="app.js"></script>
 </body>
 </html>
