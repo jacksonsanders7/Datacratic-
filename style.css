@@ -1,96 +1,84 @@
-:root {
-  --purple-dark: #2b193d;
-  --purple-mid: #3c235a;
-  --purple-accent: #7c5cff;
-  --pearl: #f5f5fa;
-  --white: #ffffff;
-  --muted: #b8b8d1;
-}
-
-/* GENERAL */
-* { box-sizing: border-box; }
 body {
   margin: 0;
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-  background: var(--pearl);
-  color: #1f1f2e;
+  font-family: system-ui;
+  background: #f4f2ff;
 }
 
-/* SIDEBAR */
-.sidebar {
-  position: fixed;
-  width: 250px;
+.hidden { display: none; }
+
+/* AUTH */
+
+.auth-container {
   height: 100vh;
-  background: linear-gradient(180deg, var(--purple-dark), var(--purple-mid));
-  color: var(--white);
-  padding: 40px 20px;
   display: flex;
-  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg,#2b193d,#4c2a85);
 }
 
-.sidebar .logo h1 { margin: 0; font-size: 28px; }
-.sidebar .logo .tagline { font-size: 13px; color: var(--muted); margin-bottom: 40px; }
-
-.sidebar nav button {
-  width: 100%;
-  background: none;
-  border: none;
-  color: var(--white);
-  text-align: left;
-  padding: 14px 10px;
-  margin-bottom: 10px;
-  border-radius: 8px;
-  cursor: pointer;
-  font-size: 16px;
-  transition: background 0.2s;
-}
-
-.sidebar nav button:hover { background: rgba(255,255,255,0.12); }
-
-/* MAIN CONTENT */
-.main { margin-left: 250px; padding: 50px; }
-
-/* TABS & CARDS */
-.tab { max-width: 750px; }
-.tab.hidden { display: none; }
-h2 { margin-bottom: 25px; }
-
-.card {
-  background: var(--white);
+.auth-card {
+  background: white;
+  padding: 40px;
   border-radius: 16px;
-  padding: 30px;
-  box-shadow: 0 14px 28px rgba(0,0,0,0.06);
+  width: 300px;
+  text-align: center;
 }
 
-/* FORM ELEMENTS */
-label { display: block; font-weight: 600; margin-top: 18px; }
-textarea, select, input[type="text"] {
+.auth-card input {
   width: 100%;
-  margin-top: 6px;
-  padding: 12px;
-  border-radius: 10px;
-  border: 1px solid #ddd;
-  font-family: inherit;
+  margin: 10px 0;
+  padding: 10px;
 }
-textarea { min-height: 90px; }
 
-button {
-  margin-top: 25px;
-  background: var(--purple-accent);
+.auth-card button {
+  width: 100%;
+  margin: 8px 0;
+  padding: 12px;
+  background: #7c5cff;
   color: white;
   border: none;
-  padding: 14px;
-  border-radius: 12px;
-  font-size: 16px;
-  font-weight: 600;
+  border-radius: 8px;
   cursor: pointer;
-  transition: opacity 0.2s;
 }
 
-button:hover { opacity: 0.9; }
+.auth-card .secondary {
+  background: #2b193d;
+}
 
-/* MUTED TEXT */
-.muted { color: var(--muted); margin-top: 10px; }
+/* DASHBOARD */
 
-/* DATA ROWS */
-.data-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+.sidebar {
+  width: 220px;
+  height: 100vh;
+  position: fixed;
+  background: #2b193d;
+  color: white;
+  padding: 20px;
+}
+
+.sidebar button {
+  width: 100%;
+  background: none;
+  color: white;
+  border: none;
+  padding: 12px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.main {
+  margin-left: 220px;
+  padding: 40px;
+}
+
+.card {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+}
+
+textarea, select, input {
+  width: 100%;
+  margin: 10px 0;
+  padding: 10px;
+}
