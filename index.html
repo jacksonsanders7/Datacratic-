@@ -1,24 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<title>Datacratic</title>
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <title>Datacratic</title>
+  <link rel="stylesheet" href="style.css">
 </head>
-<body onload="init()">
+<body>
 
 <!-- AUTH SCREEN -->
 <div id="authContainer" class="auth-container">
   <div class="auth-card">
     <h1>Datacratic</h1>
-    <p class="tagline">Collective Data Governance</p>
 
     <input id="authName" placeholder="Name (Sign up only)">
     <input id="authEmail" placeholder="Email">
     <input id="authPassword" type="password" placeholder="Password">
 
-    <button onclick="signup()">Sign Up</button>
-    <button class="secondary" onclick="login()">Login</button>
+    <button type="button" id="signupBtn">Sign Up</button>
+    <button type="button" id="loginBtn" class="secondary">Login</button>
 
     <p id="authMessage" class="error"></p>
   </div>
@@ -26,55 +25,15 @@
 
 <!-- DASHBOARD -->
 <div id="dashboard" class="hidden">
-
-  <aside class="sidebar">
+  <div class="sidebar">
     <h2>Datacratic</h2>
-    <button onclick="showTab('account')">Account</button>
-    <button onclick="showTab('upload')">Upload</button>
-    <button onclick="showTab('status')">Status</button>
-    <button onclick="showTab('groups')">Groups</button>
-    <button onclick="logout()">Logout</button>
-  </aside>
+    <button type="button" onclick="logout()">Logout</button>
+  </div>
 
-  <main class="main">
-
-    <section id="account" class="tab">
-      <h2>Account Info</h2>
-      <div class="card" id="accountInfo"></div>
-    </section>
-
-    <section id="upload" class="tab hidden">
-      <h2>Upload Data</h2>
-      <div class="card">
-        <select id="dataType">
-          <option>Screen Time</option>
-          <option>Fast Food Purchases</option>
-          <option>Location Patterns</option>
-        </select>
-
-        <textarea id="dataContent" placeholder="Describe data"></textarea>
-
-        <select id="uploadTarget"></select>
-
-        <button onclick="uploadData()">Upload</button>
-      </div>
-    </section>
-
-    <section id="status" class="tab hidden">
-      <h2>Data Status</h2>
-      <div class="card" id="statusList"></div>
-    </section>
-
-    <section id="groups" class="tab hidden">
-      <h2>Groups</h2>
-      <div class="card">
-        <input id="groupName" placeholder="New Group Name">
-        <button onclick="createGroup()">Create Group</button>
-        <div id="groupList"></div>
-      </div>
-    </section>
-
-  </main>
+  <div class="main">
+    <h2>Welcome</h2>
+    <div id="accountInfo"></div>
+  </div>
 </div>
 
 <script src="app.js"></script>
