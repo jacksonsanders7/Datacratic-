@@ -1,107 +1,162 @@
-// Local "database"
-const db = {
-  data: JSON.parse(localStorage.getItem("datacratic_data") || "[]"),
-  groups: JSON.parse(localStorage.getItem("datacratic_groups") || "[]")
+let db = {
+  users: JSON.parse(localStorage.getItem("users") || "[]"),
+  groups: JSON.parse(localStorage.getItem("groups") || "[]"),
+  data: JSON.parse(localStorage.getItem("data") || "[]")
 };
 
+let currentUser = JSON.parse(localStorage.getItem("currentUser") || "null");
+
 function save() {
-  localStorage.setItem("datacratic_data", JSON.stringify(db.data));
-  localStorage.setItem("datacratic_groups", JSON.stringify(db.groups));
+  localStorage.setItem("users", JSON.stringify(db.users));
+  localStorage.setItem("groups", JSON.stringify(db.groups));
+  localStorage.setItem("data", JSON.stringify(db.data));
+  localStorage.setItem("currentUser", JSON.stringify(currentUser));
 }
 
-function uid() {
-  return Math.random().toString(36).substring(2, 9);
+function init() {
+  if (currentUser) showDashboard();
 }
 
-// Initialize
-function initApp() {
-  showTab("account");
-  renderStatus();
-  renderGroups();
-  populateGroupDropdown();
-}
+function signup() {
+  const name = authName.value.trim();
+  const email = authEmail.value.trim();
+  const password = authPassword.value.trim();
 
-// Show tab
-function showTab(tabId) {
-  document.querySelectorAll(".tab").forEach(t => t.classList.add("hidden"));
-  document.getElementById(tabId).classList.remove("hidden");
-}
+  if (!name || !email || !password) return;
 
-// Upload data
-function uploadData() {
-  if (!dataContent.value.trim()) return;
-
-  const target = uploadTarget.value; // "personal" or group id
-  const dataset = {
-    id: uid(),
-    type: dataType.value,
-    status: "Uploaded",
-    target // for group association
-  };
-
-  db.data.push(dataset);
-
-  // If uploaded to a group, increment that group's datasets count
-  if (target !== "personal") {
-    const group = db.groups.find(g => g.id === target);
-    if (group) group.datasets += 1;
-  }
-
-  save();
-  dataContent.value = "";
-  renderStatus();
-  renderGroups();
-  showTab("status");
-}
-
-// Render data status
-function renderStatus() {
-  if (db.data.length === 0) {
-    dataStatus.innerHTML = "<p class='muted'>No data uploaded yet.</p>";
+  if (db.users.find(u => u.email === email)) {
+    authMessage.textContent = "User already exists.";
     return;
   }
 
-  dataStatus.innerHTML = db.data
-    .map(d => {
-      const targetName = d.target === "personal" ? "Personal" : (db.groups.find(g => g.id === d.target)?.name || "Group");
-      return `<div class="data-row"><strong>${d.type}</strong> — ${d.status} (${targetName})</div>`;
-    })
-    .join("");
+  const user = { id: Date.now(), name, email, password };
+  db.users.push(user);
+  currentUser = user;
+  save();
+  showDashboard();
 }
 
-// Create group
+function login() {
+  const email = authEmail.value.trim();
+  const password = authPassword.value.trim();
+
+  const user = db.users.find(u => u.email === email && u.password === password);
+  if (!user) {
+    authMessage.textContent = "Invalid login.";
+    return;
+  }
+
+  currentUser = user;
+  save();
+  showDashboard();
+}
+
+function logout() {
+  currentUser = null;
+  save();
+  location.reload();
+}
+
+function showDashboard() {
+  authContainer.classList.add("hidden");
+  dashboard.classList.remove("hidden");
+  renderAccount();
+  renderGroups();
+  renderStatus();
+  populateTargets();
+}
+
+function showTab(id) {
+  document.querySelectorAll(".tab").forEach(t => t.classList.add("hidden"));
+  document.getElementById(id).classList.remove("hidden");
+}
+
+function renderAccount() {
+  accountInfo.innerHTML = `
+    <p><strong>Name:</strong> ${currentUser.name}</p>
+    <p><strong>Email:</strong> ${currentUser.email}</p>
+  `;
+}
+
+function uploadData() {
+  const target = uploadTarget.value;
+
+  const entry = {
+    id: Date.now(),
+    userId: currentUser.id,
+    type: dataType.value,
+    status: "Uploaded",
+    groupId: target === "personal" ? null : Number(target)
+  };
+
+  db.data.push(entry);
+
+  if (entry.groupId) {
+    const group = db.groups.find(g => g.id === entry.groupId);
+    group.datasets++;
+  }
+
+  save();
+  renderStatus();
+}
+
+function renderStatus() {
+  const myData = db.data.filter(d => d.userId === currentUser.id);
+  statusList.innerHTML = myData.map(d => {
+    let groupName = "Personal";
+    if (d.groupId) {
+      const g = db.groups.find(g => g.id === d.groupId);
+      groupName = g ? g.name : "Group";
+    }
+    return `<p>${d.type} — ${d.status} (${groupName})</p>`;
+  }).join("");
+}
+
 function createGroup() {
   const name = groupName.value.trim();
   if (!name) return;
 
-  const newGroup = { id: uid(), name, members: 1, datasets: 0 };
-  db.groups.push(newGroup);
+  const group = {
+    id: Date.now(),
+    name,
+    members: 1,
+    datasets: 0,
+    memberIds: [currentUser.id]
+  };
+
+  db.groups.push(group);
   save();
-  groupName.value = "";
   renderGroups();
-  populateGroupDropdown();
+  populateTargets();
 }
 
-// Render groups
-function renderGroups() {
-  if (db.groups.length === 0) {
-    groupList.innerHTML = "<p class='muted'>No groups created yet.</p>";
-    return;
+function joinGroup(groupId) {
+  const group = db.groups.find(g => g.id === groupId);
+  if (!group.memberIds.includes(currentUser.id)) {
+    group.memberIds.push(currentUser.id);
+    group.members++;
+    save();
+    renderGroups();
   }
-
-  groupList.innerHTML = db.groups
-    .map(g => `<div class="data-row"><span><strong>${g.name}</strong> (${g.members} member${g.members > 1 ? 's' : ''})</span><span>${g.datasets} datasets pooled</span></div>`)
-    .join("");
 }
 
-// Populate upload dropdown with personal + groups
-function populateGroupDropdown() {
-  const dropdown = uploadTarget;
-  dropdown.innerHTML = '<option value="personal">Personal</option>';
-  db.groups.forEach(g => {
-    const option = document.createElement("option");
-    option.value = g.id;
-    option.text = g.name;
-    dropdown.appendChild(option);
-  });
+function renderGroups() {
+  groupList.innerHTML = db.groups.map(g => `
+    <div style="margin-top:15px">
+      <strong>${g.name}</strong><br>
+      Members: ${g.members} | Datasets: ${g.datasets}<br>
+      ${g.memberIds.includes(currentUser.id) ? 
+        "<em>Member</em>" : 
+        `<button onclick="joinGroup(${g.id})">Join</button>`}
+    </div>
+  `).join("");
+}
+
+function populateTargets() {
+  uploadTarget.innerHTML = `<option value="personal">Personal</option>`;
+  db.groups
+    .filter(g => g.memberIds.includes(currentUser.id))
+    .forEach(g => {
+      uploadTarget.innerHTML += `<option value="${g.id}">${g.name}</option>`;
+    });
 }
