@@ -14,35 +14,55 @@ function save() {
 }
 
 function init() {
-  if (currentUser) showDashboard();
+  if (currentUser) {
+    showDashboard();
+  }
 }
+
+/* ================= AUTH ================= */
 
 function signup() {
   const name = authName.value.trim();
-  const email = authEmail.value.trim();
+  const email = authEmail.value.trim().toLowerCase();
   const password = authPassword.value.trim();
 
-  if (!name || !email || !password) return;
+  if (!name || !email || !password) {
+    authMessage.textContent = "All fields are required.";
+    return;
+  }
 
   if (db.users.find(u => u.email === email)) {
     authMessage.textContent = "User already exists.";
     return;
   }
 
-  const user = { id: Date.now(), name, email, password };
+  const user = {
+    id: Date.now(),
+    name,
+    email,
+    password
+  };
+
   db.users.push(user);
+
+  // AUTO LOGIN IMMEDIATELY
   currentUser = user;
+
   save();
   showDashboard();
 }
 
 function login() {
-  const email = authEmail.value.trim();
+  const email = authEmail.value.trim().toLowerCase();
   const password = authPassword.value.trim();
 
-  const user = db.users.find(u => u.email === email && u.password === password);
+  const user = db.users.find(u =>
+    u.email === email &&
+    u.password === password
+  );
+
   if (!user) {
-    authMessage.textContent = "Invalid login.";
+    authMessage.textContent = "Invalid email or password.";
     return;
   }
 
@@ -56,6 +76,8 @@ function logout() {
   save();
   location.reload();
 }
+
+/* ================= DASHBOARD ================= */
 
 function showDashboard() {
   authContainer.classList.add("hidden");
@@ -78,7 +100,11 @@ function renderAccount() {
   `;
 }
 
+/* ================= DATA ================= */
+
 function uploadData() {
+  if (!dataContent.value.trim()) return;
+
   const target = uploadTarget.value;
 
   const entry = {
@@ -93,15 +119,22 @@ function uploadData() {
 
   if (entry.groupId) {
     const group = db.groups.find(g => g.id === entry.groupId);
-    group.datasets++;
+    if (group) group.datasets++;
   }
 
+  dataContent.value = "";
   save();
   renderStatus();
 }
 
 function renderStatus() {
   const myData = db.data.filter(d => d.userId === currentUser.id);
+
+  if (myData.length === 0) {
+    statusList.innerHTML = "No uploads yet.";
+    return;
+  }
+
   statusList.innerHTML = myData.map(d => {
     let groupName = "Personal";
     if (d.groupId) {
@@ -111,6 +144,8 @@ function renderStatus() {
     return `<p>${d.type} — ${d.status} (${groupName})</p>`;
   }).join("");
 }
+
+/* ================= GROUPS ================= */
 
 function createGroup() {
   const name = groupName.value.trim();
@@ -125,6 +160,7 @@ function createGroup() {
   };
 
   db.groups.push(group);
+  groupName.value = "";
   save();
   renderGroups();
   populateTargets();
@@ -137,23 +173,32 @@ function joinGroup(groupId) {
     group.members++;
     save();
     renderGroups();
+    populateTargets();
   }
 }
 
 function renderGroups() {
+  if (db.groups.length === 0) {
+    groupList.innerHTML = "No groups yet.";
+    return;
+  }
+
   groupList.innerHTML = db.groups.map(g => `
-    <div style="margin-top:15px">
+    <div style="margin-top:15px;">
       <strong>${g.name}</strong><br>
       Members: ${g.members} | Datasets: ${g.datasets}<br>
-      ${g.memberIds.includes(currentUser.id) ? 
-        "<em>Member</em>" : 
-        `<button onclick="joinGroup(${g.id})">Join</button>`}
+      ${
+        g.memberIds.includes(currentUser.id)
+        ? "<em>You are a member</em>"
+        : `<button onclick="joinGroup(${g.id})">Join</button>`
+      }
     </div>
   `).join("");
 }
 
 function populateTargets() {
   uploadTarget.innerHTML = `<option value="personal">Personal</option>`;
+
   db.groups
     .filter(g => g.memberIds.includes(currentUser.id))
     .forEach(g => {
