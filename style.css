@@ -1,7 +1,6 @@
 body {
   margin: 0;
   font-family: system-ui;
-  background: #f4f2ff;
 }
 
 .hidden { display: none; }
@@ -20,7 +19,7 @@ body {
   background: white;
   padding: 40px;
   border-radius: 16px;
-  width: 320px;
+  width: 300px;
   text-align: center;
 }
 
@@ -41,50 +40,11 @@ body {
   cursor: pointer;
 }
 
-.auth-card .secondary {
+.secondary {
   background: #2b193d;
 }
 
 .error {
   color: red;
   min-height: 20px;
-  margin-top: 10px;
-}
-
-/* DASHBOARD */
-
-.sidebar {
-  width: 220px;
-  height: 100vh;
-  position: fixed;
-  background: #2b193d;
-  color: white;
-  padding: 20px;
-}
-
-.sidebar button {
-  width: 100%;
-  background: none;
-  color: white;
-  border: none;
-  padding: 12px;
-  text-align: left;
-  cursor: pointer;
-}
-
-.main {
-  margin-left: 220px;
-  padding: 40px;
-}
-
-.card {
-  background: white;
-  padding: 25px;
-  border-radius: 12px;
-}
-
-textarea, select, input {
-  width: 100%;
-  margin: 10px 0;
-  padding: 10px;
 }
