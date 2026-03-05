@@ -2,6 +2,7 @@
 <html>
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Datacratic</title>
   <link rel="stylesheet" href="style.css">
 </head>
@@ -12,14 +13,18 @@
   <div class="auth-card">
     <h1>Datacratic</h1>
 
-    <input id="authName" placeholder="Name (Sign up only)">
-    <input id="authEmail" placeholder="Email">
-    <input id="authPassword" type="password" placeholder="Password">
+    <div class="auth-mode-toggle" role="tablist" aria-label="Authentication mode">
+      <button type="button" id="signupModeBtn" class="mode-btn active" aria-selected="true">Sign Up</button>
+      <button type="button" id="loginModeBtn" class="mode-btn" aria-selected="false">Login</button>
+    </div>
 
-    <button type="button" id="signupBtn">Sign Up</button>
-    <button type="button" id="loginBtn" class="secondary">Login</button>
+    <input id="authName" placeholder="Name" autocomplete="name">
+    <input id="authEmail" type="email" placeholder="Email" autocomplete="email">
+    <input id="authPassword" type="password" placeholder="Password" autocomplete="current-password">
 
-    <p id="authMessage" class="error"></p>
+    <button type="button" id="submitAuthBtn">Create Account</button>
+
+    <p id="authMessage" class="error" aria-live="polite"></p>
   </div>
 </div>
 
